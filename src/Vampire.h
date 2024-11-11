@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Rectangle.h"
+#include "HealthBar.h"
 #include <SFML/Audio.hpp>
 
 class Game;
@@ -13,12 +14,14 @@ public:
     
     void update(float deltaTime);
 	void move(float deltaTime);
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	void takeDamage(int damage, int attackID);
     bool isKilled() { return m_isKilled; }
 
 private:
     Game* m_pGame;
+	HealthBar m_healthBar;
     bool m_isKilled = false;
 
 	int m_level;

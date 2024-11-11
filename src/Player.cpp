@@ -28,6 +28,9 @@ bool Player::initialise()
 
 	m_pWeapon->initialize();
 
+	m_pHealthBar->setPosition(getCenter() + sf::Vector2f(0, -m_sprite.getGlobalBounds().height * 0.5f - 20));
+	m_pHealthBar->updateHealth(m_health);
+
     return true;
 }
 
@@ -92,6 +95,7 @@ void Player::takeDamage(int damage)
 	m_sound.play();
 
 	m_pHealthBar->updateHealth(m_health);
+	m_pHealthBar->setPosition(getCenter() + sf::Vector2f(0, -m_sprite.getGlobalBounds().height * 0.5f - 20));
 }
 
 void Player::update(float deltaTime)
@@ -105,7 +109,7 @@ void Player::update(float deltaTime)
 	if (m_damageTimer > 0.0f)
 		m_damageTimer -= deltaTime;
 	
-	m_pHealthBar->setPosition(getCenter() + sf::Vector2f(0, -50));
+	m_pHealthBar->setPosition(getCenter() + sf::Vector2f(0, -m_sprite.getGlobalBounds().height * 0.5f - 20));
 }
 
 void Player::setWeaponPosition()

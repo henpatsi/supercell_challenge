@@ -1,6 +1,6 @@
 #include "HealthBar.h"
 
-HealthBar::HealthBar(int maxHealth)
+HealthBar::HealthBar(int maxHealth, float scale)
 {
 	m_maxHealth = maxHealth;
 	m_currentHealth = maxHealth;
@@ -10,8 +10,10 @@ HealthBar::HealthBar(int maxHealth)
 	// m_background.setOutlineColor(sf::Color::White);
 	// m_background.setOutlineThickness(1);
 
-	m_healthBar.setSize(sf::Vector2f(100, 10));
-	m_healthBar.setFillColor(sf::Color::Red);
+	m_healthBar.setSize(sf::Vector2f(100 * scale, 10 * scale));
+	m_healthBar.setFillColor(sf::Color(255,0, 0, 100));
+
+	m_scale = scale;
 }
 
 void HealthBar::updateHealth(int health)
@@ -21,7 +23,7 @@ void HealthBar::updateHealth(int health)
 	{
 		m_currentHealth = 0;
 	}
-	m_healthBar.setSize(sf::Vector2f(100 * ((float) m_currentHealth / m_maxHealth), 10));
+	m_healthBar.setSize(sf::Vector2f(100 * m_scale * ((float) m_currentHealth / (float) m_maxHealth), 10 * m_scale));
 }
 
 void HealthBar::setPosition(sf::Vector2f position)

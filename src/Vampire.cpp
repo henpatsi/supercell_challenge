@@ -9,7 +9,7 @@
 
 Vampire::Vampire(Game* game, sf::Vector2f position, int level) :
     Rectangle(sf::Vector2f(VampireWidth * level, VampireHeight * level)),
-    m_pGame(game)
+    m_pGame(game), m_healthBar(VampireBaseHealth * level, VampireHealthBarScale)
 {
     setPosition(position);
     setOrigin(sf::Vector2f(0.0f, 0.0f));
@@ -51,6 +51,8 @@ void Vampire::update(float deltaTime)
 		m_stopTimer -= deltaTime;
 	else
 		move(deltaTime);
+
+	m_healthBar.setPosition(getCenter() + sf::Vector2f(0, -m_sprite.getGlobalBounds().height * 0.5f - 10));
 }
 
 void Vampire::move(float deltaTime)
@@ -81,4 +83,13 @@ void Vampire::takeDamage(int damage, int attackID)
 	m_sound.play();
 
 	m_lastAttackID = attackID;
+
+	m_healthBar.updateHealth(m_health);
+	m_healthBar.setPosition(getCenter() + sf::Vector2f(0, -m_sprite.getGlobalBounds().height * 0.5f - 10));
+}
+
+void Vampire::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(m_sprite, states);
+	m_healthBar.draw(target, states);
 }

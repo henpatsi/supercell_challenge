@@ -5,7 +5,7 @@
 class HealthBar
 {
 public:
-	HealthBar(int maxHealth);
+	HealthBar(int maxHealth, float scale = 1.0f);
 	void updateHealth(int health);
 	void setPosition(sf::Vector2f position);
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
@@ -16,4 +16,6 @@ private:
 
 	int m_currentHealth;
 	int m_maxHealth;
+
+	float m_scale;
 };

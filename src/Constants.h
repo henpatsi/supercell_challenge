@@ -32,6 +32,8 @@ const float VampireBaseSpeed = 100.0f;
 const float VampireBaseHealth = 20.0f;
 const float VampireBaseDamage = 10.0f;
 
+const float VampireHealthBarScale = 0.5f;
+
 // VampireSpawner
 const float StartingVampireSpawnCooldown = 2.0f;
 const float VampireSpawnCooldownDecrement = 0.1f;
