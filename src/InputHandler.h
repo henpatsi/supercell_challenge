@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Window/Keyboard.hpp>
+#include "Constants.h"
 
 class Player;
 class Game;

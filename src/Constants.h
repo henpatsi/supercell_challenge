@@ -21,3 +21,6 @@ const float VampireSpeed = 100.0f;
 const float VampireBaseHealth = 20.0f;
 
 const float UpgradeCostMultiplier = 1.1f;
+const int MoveSpeedUpgradeAmount = 20;
+const int DamageUpgradeAmount = 10;
+const float AttackSizeUpgradeAmount = 0.1f;

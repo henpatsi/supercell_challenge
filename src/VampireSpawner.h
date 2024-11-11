@@ -17,6 +17,8 @@ class VampireSpawner
 
 	int m_levelUpSpawnCount;
 	int m_level;
+	
+	std::map<int, float> m_spawnCooldowns;
 
 	public:
 		VampireSpawner(Game* game);
