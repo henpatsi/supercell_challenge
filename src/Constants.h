@@ -9,6 +9,7 @@ const float GameOverWaitTime = 3.0f;
 const float PlayerHeight = 55.0f;
 const float PlayerWidth = 55.0f;
 
+const int PlayerStartingHealth = 100;
 const float PlayerStartingMoveSpeed = 100.0f;
 const float PlayerStartingAttackCooldown = 0.5f;
 const float PlayerStartingAttackSize = 1.0f;
@@ -19,6 +20,7 @@ const float VampireHeight = 32.0f;
 const float VampireWidth = 32.0f;
 const float VampireSpeed = 100.0f;
 const float VampireBaseHealth = 20.0f;
+const float VampireBaseDamage = 10.0f;
 
 const float UpgradeCostMultiplier = 1.1f;
 const int MoveSpeedUpgradeAmount = 20;

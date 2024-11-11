@@ -19,10 +19,11 @@ Vampire::Vampire(Game* game, sf::Vector2f position, int level) :
     m_sprite.setScale(2.0f, 2.0f); // Scale the sprite to match the rectangle size
 	m_sprite.scale(level, level);
 
-	std::cout << "Sprite size: " << m_sprite.getGlobalBounds().width << " " << m_sprite.getGlobalBounds().height << std::endl;
-	std::cout << "Rectangle size: " << getSize().x << " " << getSize().y << std::endl;
+	// std::cout << "Sprite size: " << m_sprite.getGlobalBounds().width << " " << m_sprite.getGlobalBounds().height << std::endl;
+	// std::cout << "Rectangle size: " << getSize().x << " " << getSize().y << std::endl;
 
 	m_health = VampireBaseHealth * level;
+	m_damage = VampireBaseDamage * level;
 	m_level = level;
 }
 
@@ -42,7 +43,7 @@ void Vampire::update(float deltaTime)
     }
 
     if (collidesWith(pPlayer))
-        pPlayer->setIsDead(true);
+        pPlayer->takeDamage(m_damage);
 
 	if (m_stopTimer > 0.0f)
 		m_stopTimer -= deltaTime;
@@ -72,7 +73,14 @@ void Vampire::takeDamage(int damage, int attackID)
 	{
 		m_health = 0;
 		m_isKilled = true;
+		m_sound.setBuffer(*m_pGame->getVampireDeathBuffer());
 	}
+	else
+	{
+		m_sound.setBuffer(*m_pGame->getVampireHitBuffer());
+	}
+
+	m_sound.play();
 
 	m_lastAttackID = attackID;
 }

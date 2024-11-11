@@ -37,6 +37,8 @@ bool Game::initialise()
         std::cerr << "Unable to load font" << std::endl;
         return false;
     }
+
+	// Load textures
     if (!m_vampTexture.loadFromFile(ResourceManager::getFilePath("vampire.png")))
     {
         std::cerr << "Unable to load texture" << std::endl;
@@ -47,6 +49,40 @@ bool Game::initialise()
         std::cerr << "Unable to load texture" << std::endl;
         return false;
     }
+
+	// Load music
+	if (!m_music.openFromFile(ResourceManager::getFilePath("Clement_Panchout_Best_Party_Ever_2019.wav")))
+	{
+		std::cerr << "Unable to load music" << std::endl;
+		return false;
+	}
+
+	// Load sound effects
+	if (!m_playerAttackBuffer.loadFromFile(ResourceManager::getFilePath("player_attack.wav")))
+	{
+		std::cerr << "Unable to load sound" << std::endl;
+		return false;
+	}
+	if (!m_playerHitBuffer.loadFromFile(ResourceManager::getFilePath("player_hit.wav")))
+	{
+		std::cerr << "Unable to load sound" << std::endl;
+		return false;
+	}
+	if (!m_playerDeathBuffer.loadFromFile(ResourceManager::getFilePath("player_death.wav")))
+	{
+		std::cerr << "Unable to load sound" << std::endl;
+		return false;
+	}
+	if (!m_vampireHitBuffer.loadFromFile(ResourceManager::getFilePath("vampire_hit.wav")))
+	{
+		std::cerr << "Unable to load sound" << std::endl;
+		return false;
+	}
+	if (!m_vampireDeathBuffer.loadFromFile(ResourceManager::getFilePath("vampire_death.wav")))
+	{
+		std::cerr << "Unable to load sound" << std::endl;
+		return false;
+	}
 
     resetLevel();
     return true;
@@ -62,6 +98,8 @@ void Game::resetLevel()
 
 	m_xp = 0;
 	m_nextUpgrade = 1;
+
+	m_music.play();
 }
 
 void Game::update(float deltaTime)
@@ -176,6 +214,13 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 		nextUpgradeText.setString("Next upgrade: " + std::to_string(m_nextUpgrade));
 		nextUpgradeText.setPosition(20, 50);
 		target.draw(nextUpgradeText);
+
+		sf::Text playerHealthText;
+		playerHealthText.setFont(m_font);
+		playerHealthText.setFillColor(sf::Color::Red);
+		playerHealthText.setString("Health: " + std::to_string(m_pPlayer->getHealth()));
+		playerHealthText.setPosition(20, ScreenWidth - playerHealthText.getLocalBounds().getSize().y - 20);
+		target.draw(playerHealthText);
 
 		if (m_state == State::UPGRADE)
 		{

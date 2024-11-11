@@ -3,6 +3,7 @@
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Window/Keyboard.hpp>
+#include <SFML/Audio.hpp>
 #include <memory>
 #include "Constants.h"
 
@@ -43,6 +44,12 @@ public:
     sf::Texture* getPlayerTexture() { return &m_playerTexture; }
     sf::Texture* getVampireTexture() { return &m_vampTexture; }
 
+	sf::SoundBuffer* getVampireDeathBuffer() { return &m_vampireDeathBuffer; }
+	sf::SoundBuffer* getVampireHitBuffer() { return &m_vampireHitBuffer; }
+	sf::SoundBuffer* getPlayerDeathBuffer() { return &m_playerDeathBuffer; }
+	sf::SoundBuffer* getPlayerHitBuffer() { return &m_playerHitBuffer; }
+	sf::SoundBuffer* getPlayerAttackBuffer() { return &m_playerAttackBuffer; }
+
 	void onVampireKilled(int level);
 
 private:
@@ -60,4 +67,11 @@ private:
     sf::Font m_font;
     sf::Texture m_vampTexture;
     sf::Texture m_playerTexture;
+
+	sf::Music m_music;
+	sf::SoundBuffer m_vampireDeathBuffer;
+	sf::SoundBuffer m_vampireHitBuffer;
+	sf::SoundBuffer m_playerDeathBuffer;
+	sf::SoundBuffer m_playerHitBuffer;
+	sf::SoundBuffer m_playerAttackBuffer;
 };

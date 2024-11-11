@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Rectangle.h"
+#include <SFML/Audio.hpp>
 
 #include <memory>
 
@@ -33,7 +34,7 @@ public:
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     bool isDead() const { return m_isDead; }
-    void setIsDead(bool isDead) { m_isDead = isDead; }
+	void takeDamage(int damage);
 
     Weapon* getWeapon() { return m_pWeapon.get(); }
 
@@ -42,6 +43,7 @@ public:
 	void upgradeAttackSize(float amount);
 
 	int getMoveSpeed() const { return m_moveSpeed; }
+	int getHealth() const { return m_health; }
 
 private:
     bool    m_isDead = false;
@@ -49,8 +51,11 @@ private:
     Game*   m_pGame;
     std::unique_ptr<Weapon> m_pWeapon;
 
+	int m_health;
 	int m_moveSpeed;
 
 	float m_attackCooldown;
 	float m_attackTimer = 0.0f;
+
+	sf::Sound m_sound;
 };

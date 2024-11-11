@@ -17,11 +17,12 @@ bool Player::initialise()
 {
     m_sprite.setTexture(*m_pGame->getPlayerTexture());
     m_sprite.setScale(SPRITE_SCALE, SPRITE_SCALE);
-    setIsDead(false);
     setPosition(ScreenWidth / 2, ScreenHeight / 2);
     m_sprite.setPosition(getPosition());
 	m_pWeapon->setActive(false);
 
+	m_isDead = false;
+	m_health = PlayerStartingHealth;
 	m_moveSpeed = PlayerStartingMoveSpeed;
 	m_attackCooldown = PlayerStartingAttackCooldown;
 
@@ -69,6 +70,23 @@ void Player::attack()
     	m_pWeapon->setActive(true);
 	else
 		m_pWeapon->setActive(true, true);
+}
+
+void Player::takeDamage(int damage)
+{
+	m_health -= damage;
+	if (m_health <= 0)
+	{
+		m_health = 0;
+		m_isDead = true;
+		m_sound.setBuffer(*m_pGame->getPlayerDeathBuffer());
+	}
+	else
+	{
+		m_sound.setBuffer(*m_pGame->getPlayerHitBuffer());
+	}
+
+	m_sound.play();
 }
 
 void Player::update(float deltaTime)

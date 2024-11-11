@@ -13,3 +13,8 @@
  - fixed bug that vampire spawn rate did not reset after losing
  - separated vampire spawner into own class
  - added levels for vampires which scale size and hp
+ - added music
+
+### Credits
+
+Music - https://clement-panchout.itch.io/yet-another-free-music-pack
