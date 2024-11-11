@@ -17,7 +17,8 @@ public:
 	void upgradeDamage(int amount);
 	void upgradeAttackSize(float amount);
 
-	float getDamage() { return m_damage; }
+	int getDamage() { return m_damage; }
+	float getAttackSize() { return m_attackSize; }
 	int getAttackID() { return m_attackID; }
 
 private:

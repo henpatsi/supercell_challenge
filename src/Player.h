@@ -41,13 +41,15 @@ public:
 	void upgradeDamage(float amount);
 	void upgradeAttackSize(float amount);
 
+	int getMoveSpeed() const { return m_moveSpeed; }
+
 private:
     bool    m_isDead = false;
     eDirection m_direction = LEFT;
     Game*   m_pGame;
     std::unique_ptr<Weapon> m_pWeapon;
 
-	float m_moveSpeed = 100.0f;
+	int m_moveSpeed = 100.0f;
 
 	float m_attackCooldown = 0.5f;
 	float m_attackTimer = 0.0f;

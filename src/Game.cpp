@@ -144,7 +144,15 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 		if (m_state == State::UPGRADE)
 		{
-			// TODO
+			sf::Text upgradeText;
+			upgradeText.setFont(m_font);
+			upgradeText.setFillColor(sf::Color::White);
+			upgradeText.setString("Press numbers to upgrade!\n\n1 : Speed\n2 : Damage\n3 : Attack Size\n\nCurrent speed: "
+									+ std::to_string(m_pPlayer->getMoveSpeed()) 
+									+ "\nCurrent damage: " + std::to_string(m_pPlayer->getWeapon()->getDamage())
+									+ "\nCurrent attack size: " + std::to_string(m_pPlayer->getWeapon()->getAttackSize()));
+			upgradeText.setPosition(sf::Vector2f((ScreenWidth - upgradeText.getLocalBounds().getSize().x) * 0.5, (ScreenHeight - upgradeText.getLocalBounds().getSize().y) * 0.5));
+			target.draw(upgradeText);
 		}
     }
 
