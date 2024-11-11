@@ -3,7 +3,8 @@
 Player::Player(Game* pGame) :
     Rectangle(sf::Vector2f(PlayerWidth, PlayerHeight)),
     m_pGame(pGame),
-    m_pWeapon(std::make_unique<Weapon>())
+    m_pWeapon(std::make_unique<Weapon>()),
+	m_pHealthBar(std::make_unique<HealthBar>(PlayerStartingHealth))
 {
     setOrigin(sf::Vector2f(0.0f, 0.0f));
 }
@@ -89,6 +90,8 @@ void Player::takeDamage(int damage)
 
 	m_sound.setBuffer(*m_pGame->getPlayerHitBuffer());
 	m_sound.play();
+
+	m_pHealthBar->updateHealth(m_health);
 }
 
 void Player::update(float deltaTime)
@@ -101,6 +104,8 @@ void Player::update(float deltaTime)
 		m_attackTimer -= deltaTime;
 	if (m_damageTimer > 0.0f)
 		m_damageTimer -= deltaTime;
+	
+	m_pHealthBar->setPosition(getCenter() + sf::Vector2f(0, -50));
 }
 
 void Player::setWeaponPosition()

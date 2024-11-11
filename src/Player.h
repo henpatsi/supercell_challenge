@@ -10,6 +10,7 @@
 #include "InputHandler.h"
 #include "Constants.h"
 #include "Game.h"
+#include "HealthBar.h"
 
 #define SPRITE_SCALE 3.5f
 
@@ -43,6 +44,7 @@ public:
 	void takeDamage(int damage);
 
     Weapon* getWeapon() { return m_pWeapon.get(); }
+	HealthBar* getHealthBar() { return m_pHealthBar.get(); }
 
 	void upgradeSpeed(float amount);
 	void upgradeDamage(float amount);
@@ -56,6 +58,8 @@ private:
     eDirection m_direction = LEFT;
     Game*   m_pGame;
     std::unique_ptr<Weapon> m_pWeapon;
+
+	std::unique_ptr<HealthBar> m_pHealthBar;
 
 	int m_health;
 	int m_moveSpeed;

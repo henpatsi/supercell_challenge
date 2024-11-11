@@ -160,6 +160,9 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
     // Draw player.
     m_pPlayer->draw(target, states);
 
+	if (m_state == State::ACTIVE || m_state == State::UPGRADE)
+		m_pPlayer->getHealthBar()->draw(target, states); // Do not want to draw this before game starts
+
     //  Draw world.
 	m_pVampireSpawner->draw(target, states);
 
