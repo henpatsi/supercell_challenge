@@ -14,6 +14,10 @@ struct InputData
     bool m_space = false;
     bool m_spaceReleased = true;
 
+	bool m_upgrade1 = false;
+	bool m_upgrade2 = false;
+	bool m_upgrade3 = false;
+
     bool hasInputs() { return m_movingUp || m_movingDown || m_movingLeft || m_movingRight || m_space;}
 };
 
@@ -24,6 +28,7 @@ public:
     ~GameInput();
     
     void update(float deltaTime);
+	void upgrade();
     void onKeyPressed(sf::Keyboard::Key key);
     void onKeyReleased(sf::Keyboard::Key key);
     

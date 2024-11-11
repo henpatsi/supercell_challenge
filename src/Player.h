@@ -37,9 +37,18 @@ public:
 
     Weapon* getWeapon() { return m_pWeapon.get(); }
 
+	void upgradeSpeed(float amount);
+	void upgradeDamage(float amount);
+	void upgradeAttackSize(float amount);
+
 private:
     bool    m_isDead = false;
     eDirection m_direction = LEFT;
     Game*   m_pGame;
     std::unique_ptr<Weapon> m_pWeapon;
+
+	float m_moveSpeed = 100.0f;
+
+	float m_attackCooldown = 0.5f;
+	float m_attackTimer = 0.0f;
 };

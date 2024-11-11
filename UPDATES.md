@@ -3,4 +3,7 @@
  - right and lower boundary added for player
  - directions for up and down for attacking
  - weapon resets immediately when game over
- - space input now only press, not held down
+ - attack now has cooldown and damage
+ - enemies now have health
+ - enemies briefly stop when attacked
+ - can now upgrade player movement, weapons damage, and weapon size

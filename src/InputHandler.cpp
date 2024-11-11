@@ -24,8 +24,26 @@ void GameInput::update(float deltaTime)
     if (m_inputData.m_space)
     {
         m_pPlayer->attack();
-		m_inputData.m_space = false;
     }
+}
+
+void GameInput::upgrade()
+{
+	if (m_inputData.m_upgrade1)
+	{
+		m_pPlayer->upgradeSpeed(20);
+		m_inputData.m_upgrade1 = false;
+	}
+	else if (m_inputData.m_upgrade2)
+	{
+		m_pPlayer->upgradeDamage(10);
+		m_inputData.m_upgrade2 = false;
+	}
+	else if (m_inputData.m_upgrade3)
+	{
+		m_pPlayer->upgradeAttackSize(0.05);
+		m_inputData.m_upgrade3 = false;
+	}
 }
 
 void GameInput::onKeyPressed(sf::Keyboard::Key key)
@@ -54,6 +72,18 @@ void GameInput::onKeyPressed(sf::Keyboard::Key key)
         }
         m_inputData.m_spaceReleased = false;
     }
+	else if (key == sf::Keyboard::Num1)
+	{
+		m_inputData.m_upgrade1 = true;
+	}
+	else if (key == sf::Keyboard::Num2)
+	{
+		m_inputData.m_upgrade2 = true;
+	}
+	else if (key == sf::Keyboard::Num3)
+	{
+		m_inputData.m_upgrade3 = true;
+	}
 }
 
 void GameInput::onKeyReleased(sf::Keyboard::Key key)
@@ -79,4 +109,16 @@ void GameInput::onKeyReleased(sf::Keyboard::Key key)
         m_inputData.m_space = false;
         m_inputData.m_spaceReleased = true;
     }
+	else if (key == sf::Keyboard::Num1)
+	{
+		m_inputData.m_upgrade1 = false;
+	}
+	else if (key == sf::Keyboard::Num2)
+	{
+		m_inputData.m_upgrade2 = false;
+	}
+	else if (key == sf::Keyboard::Num3)
+	{
+		m_inputData.m_upgrade3 = false;
+	}
 }

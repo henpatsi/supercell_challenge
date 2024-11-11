@@ -78,6 +78,7 @@ void Game::update(float deltaTime)
         {
             m_pGameInput->update(deltaTime);
             m_pPlayer->update(deltaTime);
+			m_pGameInput->upgrade();
 
             vampireSpawner(deltaTime);
             for (auto& temp : m_pVampires)
@@ -91,6 +92,12 @@ void Game::update(float deltaTime)
                 resetLevel();
             }
         }
+
+		case State::UPGRADE:
+		{
+			m_pGameInput->upgrade();
+		}
+
         break;
     }
 

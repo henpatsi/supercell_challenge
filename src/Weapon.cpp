@@ -14,10 +14,12 @@ void Weapon::setActive(bool isActive, bool isVertical)
     if (isActive)
     {
 		if (!isVertical)
-        	setSize(sf::Vector2f(WeaponWidth, WeaponHeight));
+        	setSize(sf::Vector2f(m_weaponWidth, m_weaponHeight));
 		else
-			setSize(sf::Vector2f(WeaponHeight, WeaponWidth));
-        m_timer = WeaponActiveTime;
+			setSize(sf::Vector2f(m_weaponHeight, m_weaponWidth));
+        m_timer = m_weaponActiveTime;
+
+		m_attackID++;
     }
     else
     {
@@ -44,4 +46,18 @@ void Weapon::draw(sf::RenderTarget &target, sf::RenderStates states) const
     graphicsRect.setFillColor(getColor());
     graphicsRect.setPosition(getPosition());
     target.draw(graphicsRect);
+}
+
+// Upgrade
+
+void Weapon::upgradeDamage(int amount)
+{
+	m_damage += amount;
+}
+
+void Weapon::upgradeAttackSize(float amount)
+{
+	m_attackSize += amount;
+	m_weaponWidth *= m_attackSize;
+	m_weaponHeight *= m_attackSize;
 }

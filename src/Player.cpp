@@ -29,12 +29,12 @@ void Player::move(InputData inputData, float deltaTime)
     float xSpeed = 0.0f;
     float ySpeed = 0.0f;
     
-    xSpeed -= inputData.m_movingLeft * PlayerSpeed;
-    xSpeed += inputData.m_movingRight * PlayerSpeed;
+    xSpeed -= inputData.m_movingLeft * m_moveSpeed;
+    xSpeed += inputData.m_movingRight * m_moveSpeed;
     xSpeed *= deltaTime;
 
-    ySpeed -= inputData.m_movingUp * PlayerSpeed;
-    ySpeed += inputData.m_movingDown * PlayerSpeed;
+    ySpeed -= inputData.m_movingUp * m_moveSpeed;
+    ySpeed += inputData.m_movingDown * m_moveSpeed;
     ySpeed *= deltaTime;
     
     sf::Transformable::move(sf::Vector2f(xSpeed, ySpeed));
@@ -50,13 +50,15 @@ void Player::move(InputData inputData, float deltaTime)
 			m_direction = UP;
 		else if (inputData.m_movingUp == false && inputData.m_movingDown == true)
 			m_direction = DOWN;
-		else
-			m_direction = RIGHT;
     }
 }
 
 void Player::attack()
 {
+	if (m_attackTimer > 0.0f)
+		return;
+	m_attackTimer = m_attackCooldown;
+
 	if (m_direction == LEFT || m_direction == RIGHT)
     	m_pWeapon->setActive(true);
 	else
@@ -68,6 +70,9 @@ void Player::update(float deltaTime)
     m_sprite.setPosition(getPosition());
 	setWeaponPosition();
     m_pWeapon->update(deltaTime);
+
+	if (m_attackTimer > 0.0f)
+		m_attackTimer -= deltaTime;
 }
 
 void Player::setWeaponPosition()
@@ -104,4 +109,21 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     Rectangle::draw(target, states);
     m_pWeapon->draw(target, states);
+}
+
+// Upgrades
+
+void Player::upgradeSpeed(float amount)
+{
+	m_moveSpeed += amount;
+}
+
+void Player::upgradeDamage(float amount)
+{
+	m_pWeapon->upgradeDamage(amount);
+}
+
+void Player::upgradeAttackSize(float amount)
+{
+	m_pWeapon->upgradeAttackSize(amount);
 }
