@@ -24,6 +24,7 @@ private:
 	int m_level;
 	int m_health;
 	int m_damage;
+	float m_moveSpeed;
 
 	float m_stopDuration = 0.2f;
 	float m_stopTimer = 0.0f;

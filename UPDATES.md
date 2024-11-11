@@ -18,3 +18,4 @@
 ### Credits
 
 Music - https://clement-panchout.itch.io/yet-another-free-music-pack
+SFX - https://leohpaz.itch.io/minifantasy-dungeon-sfx-pack

@@ -20,6 +20,8 @@ class VampireSpawner
 	
 	std::map<int, float> m_spawnCooldowns;
 
+	sf::Sound m_sound;
+
 	public:
 		VampireSpawner(Game* game);
 		~VampireSpawner() {}

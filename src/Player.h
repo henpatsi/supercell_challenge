@@ -54,6 +54,9 @@ private:
 	int m_health;
 	int m_moveSpeed;
 
+	float m_damageCooldown;
+	float m_damageTimer = 0.0f;
+
 	float m_attackCooldown;
 	float m_attackTimer = 0.0f;
 

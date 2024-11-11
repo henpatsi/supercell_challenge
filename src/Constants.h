@@ -14,6 +14,7 @@ const float PlayerStartingMoveSpeed = 100.0f;
 const float PlayerStartingAttackCooldown = 0.5f;
 const float PlayerStartingAttackSize = 1.0f;
 const float PlayerStartingDamage = 10;
+const float PlayerStartingDamageCooldown = 0.5f;
 
 const float StartingVampireSpawnCooldown = 2.0f;
 const float VampireHeight = 32.0f;

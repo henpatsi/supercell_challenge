@@ -19,6 +19,9 @@ void VampireSpawner::update(float deltaTime)
     {
         if (m_pVampires[i]->isKilled())
         {
+			m_sound.setBuffer(*m_pGame->getVampireDeathBuffer());
+			m_sound.play();
+
             std::swap(m_pVampires[i], m_pVampires.back());
             m_pVampires.pop_back();
             continue;

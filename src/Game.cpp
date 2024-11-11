@@ -51,11 +51,12 @@ bool Game::initialise()
     }
 
 	// Load music
-	if (!m_music.openFromFile(ResourceManager::getFilePath("Clement_Panchout_Best_Party_Ever_2019.wav")))
+	if (!m_music.openFromFile(ResourceManager::getFilePath("music.wav")))
 	{
 		std::cerr << "Unable to load music" << std::endl;
 		return false;
 	}
+	m_music.setVolume(25);
 
 	// Load sound effects
 	if (!m_playerAttackBuffer.loadFromFile(ResourceManager::getFilePath("player_attack.wav")))
@@ -219,7 +220,7 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 		playerHealthText.setFont(m_font);
 		playerHealthText.setFillColor(sf::Color::Red);
 		playerHealthText.setString("Health: " + std::to_string(m_pPlayer->getHealth()));
-		playerHealthText.setPosition(20, ScreenWidth - playerHealthText.getLocalBounds().getSize().y - 20);
+		playerHealthText.setPosition(20, 100);
 		target.draw(playerHealthText);
 
 		if (m_state == State::UPGRADE)

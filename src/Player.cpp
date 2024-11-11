@@ -24,7 +24,11 @@ bool Player::initialise()
 	m_isDead = false;
 	m_health = PlayerStartingHealth;
 	m_moveSpeed = PlayerStartingMoveSpeed;
+
+	m_damageCooldown = PlayerStartingDamageCooldown;
+	m_damageTimer = 0.0f;
 	m_attackCooldown = PlayerStartingAttackCooldown;
+	m_attackTimer = 0.0f;
 
 	m_pWeapon->initialize();
 
@@ -70,22 +74,25 @@ void Player::attack()
     	m_pWeapon->setActive(true);
 	else
 		m_pWeapon->setActive(true, true);
+
+	m_sound.setBuffer(*m_pGame->getPlayerAttackBuffer());
+	m_sound.play();
 }
 
 void Player::takeDamage(int damage)
 {
+	if (m_damageTimer > 0.0f)
+		return;
+	m_damageTimer = m_damageCooldown;
+
 	m_health -= damage;
 	if (m_health <= 0)
 	{
 		m_health = 0;
 		m_isDead = true;
-		m_sound.setBuffer(*m_pGame->getPlayerDeathBuffer());
-	}
-	else
-	{
-		m_sound.setBuffer(*m_pGame->getPlayerHitBuffer());
 	}
 
+	m_sound.setBuffer(*m_pGame->getPlayerHitBuffer());
 	m_sound.play();
 }
 
@@ -97,6 +104,8 @@ void Player::update(float deltaTime)
 
 	if (m_attackTimer > 0.0f)
 		m_attackTimer -= deltaTime;
+	if (m_damageTimer > 0.0f)
+		m_damageTimer -= deltaTime;
 }
 
 void Player::setWeaponPosition()
