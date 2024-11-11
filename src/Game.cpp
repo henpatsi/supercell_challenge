@@ -216,7 +216,7 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 			sf::Text upgradeText;
 			upgradeText.setFont(m_font);
 			upgradeText.setFillColor(sf::Color::White);
-			upgradeText.setString("Press 1, 2, or 3 to upgrade!\n\n1 : Speed\n2 : Damage\n3 : Attack Size\n\nCurrent speed: "
+			upgradeText.setString("Press 1, 2, or 3 to upgrade!\n\n1 : Move Speed\n2 : Damage\n3 : Attack Size\n\nCurrent speed: "
 									+ std::to_string(m_pPlayer->getMoveSpeed()) 
 									+ "\nCurrent damage: " + std::to_string(m_pPlayer->getWeapon()->getDamage())
 									+ "\nCurrent attack size: " + std::to_string(m_pPlayer->getWeapon()->getAttackSize()));

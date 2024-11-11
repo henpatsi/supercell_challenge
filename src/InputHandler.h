@@ -17,7 +17,6 @@ struct InputData
     bool m_movingLeft = false;
     bool m_movingRight = false;
     bool m_space = false;
-    bool m_spaceReleased = true;
 
 	bool m_upgrade1 = false;
 	bool m_upgrade2 = false;

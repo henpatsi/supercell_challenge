@@ -66,11 +66,7 @@ void GameInput::onKeyPressed(sf::Keyboard::Key key)
     }
     else if (key == sf::Keyboard::Space)
     {
-        if (m_inputData.m_spaceReleased)
-        {
-            m_inputData.m_space = true;
-        }
-        m_inputData.m_spaceReleased = false;
+		m_inputData.m_space = true;
     }
 	else if (key == sf::Keyboard::Num1)
 	{
@@ -107,7 +103,6 @@ void GameInput::onKeyReleased(sf::Keyboard::Key key)
     else if (key == sf::Keyboard::Space)
     {
         m_inputData.m_space = false;
-        m_inputData.m_spaceReleased = true;
     }
 	else if (key == sf::Keyboard::Num1)
 	{
