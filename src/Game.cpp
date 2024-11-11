@@ -204,12 +204,12 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 		drawSimpleFont(target, m_font, 
 				"Health: " + std::to_string(m_pPlayer->getHealth()), 
-				sf::Vector2f(20, 100),
+				sf::Vector2f(20, 150),
 				sf::Color::Red);
 
 		drawSimpleFont(target, m_font, 
 				"Enemy level: " + std::to_string(m_pVampireSpawner->getMaximumLevel()), 
-				sf::Vector2f(20, 150));
+				sf::Vector2f(20, 100));
 
 		if (m_state == State::UPGRADE)
 		{
