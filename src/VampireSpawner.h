@@ -11,12 +11,11 @@ class VampireSpawner
 	Game*	m_pGame;
 	std::vector<std::unique_ptr<Vampire>> m_pVampires;
 
-	float m_vampireCooldown;
-	float m_nextVampireCooldown;
+	float m_vampireSpawnTimer;
+	float m_vampireSpawnCooldown;
 	int m_spawnCount;
 
-	int m_levelUpSpawnCount;
-	int m_level;
+	int m_maximumLevel;
 	
 	std::map<int, float> m_spawnCooldowns;
 
@@ -33,4 +32,5 @@ class VampireSpawner
 		void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 		std::vector<std::unique_ptr<Vampire>>& getVampires() { return m_pVampires; }
+		int getMaximumLevel() { return m_maximumLevel; }
 };

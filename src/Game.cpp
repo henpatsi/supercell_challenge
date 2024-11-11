@@ -223,6 +223,13 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 		playerHealthText.setPosition(20, 100);
 		target.draw(playerHealthText);
 
+		sf::Text enemyMaxLevelText;
+		enemyMaxLevelText.setFont(m_font);
+		enemyMaxLevelText.setFillColor(sf::Color::White);
+		enemyMaxLevelText.setString("Enemy level: " + std::to_string(m_pVampireSpawner->getMaximumLevel()));
+		enemyMaxLevelText.setPosition(20, 150);
+		target.draw(enemyMaxLevelText);
+
 		if (m_state == State::UPGRADE)
 		{
 			sf::Text upgradeText;

@@ -17,6 +17,11 @@ const float PlayerStartingDamage = 10;
 const float PlayerStartingDamageCooldown = 0.5f;
 
 const float StartingVampireSpawnCooldown = 2.0f;
+const float VampireSpawnCooldownDecrement = 0.1f;
+const float MinimumVampireSpawnCooldown = 0.5f;
+const int SpawnCountToIncreaseMaxLevel = 10;
+const int SpawnCountToDecreaseCooldown = 5;
+
 const float VampireHeight = 32.0f;
 const float VampireWidth = 32.0f;
 const float VampireSpeed = 100.0f;

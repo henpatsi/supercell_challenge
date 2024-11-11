@@ -32,9 +32,9 @@ void VampireSpawner::update(float deltaTime)
 
 void VampireSpawner::updateSpawn(float deltaTime)
 {
-	if (m_vampireCooldown > 0.0f)
+	if (m_vampireSpawnTimer > 0.0f)
     {
-        m_vampireCooldown -= deltaTime;
+        m_vampireSpawnTimer -= deltaTime;
         return;
     }
 
@@ -53,30 +53,29 @@ void VampireSpawner::updateSpawn(float deltaTime)
         randomYPos += yMinDist;
 
     sf::Vector2f spawnPosition = sf::Vector2f(randomXPos, randomYPos);
-    m_pVampires.push_back(std::make_unique<Vampire>(m_pGame, spawnPosition, m_level));
+	int vampireLevel = rand() % m_maximumLevel + 1;
+
+    m_pVampires.push_back(std::make_unique<Vampire>(m_pGame, spawnPosition, vampireLevel));
 
     m_spawnCount++;
-	if (m_spawnCount == m_levelUpSpawnCount) // Level up and reset spawn cooldown
+	if (m_spawnCount % SpawnCountToIncreaseMaxLevel == 0)
 	{
-		m_level++;
-		m_spawnCount = 0;
-		m_nextVampireCooldown = StartingVampireSpawnCooldown;
+		m_maximumLevel++;
 	}
-    else if (m_spawnCount % 5 == 0)
+    if (m_vampireSpawnCooldown > MinimumVampireSpawnCooldown && m_spawnCount % SpawnCountToDecreaseCooldown == 0)
     {
-        m_nextVampireCooldown -= 0.1f;
+        m_vampireSpawnCooldown -= VampireSpawnCooldownDecrement;
     }
-    m_vampireCooldown = m_nextVampireCooldown;
+    m_vampireSpawnTimer = m_vampireSpawnCooldown;
 }
 
 void VampireSpawner::initialise()
 {
 	m_pVampires.clear();
-	m_vampireCooldown = 0.0f;
-	m_nextVampireCooldown = StartingVampireSpawnCooldown;
+	m_vampireSpawnTimer = 0.0f;
+	m_vampireSpawnCooldown = StartingVampireSpawnCooldown;
 	m_spawnCount = 0;
-	m_level = 1;
-	m_levelUpSpawnCount = 10;
+	m_maximumLevel = 1;
 }
 
 void VampireSpawner::draw(sf::RenderTarget &target, sf::RenderStates states) const

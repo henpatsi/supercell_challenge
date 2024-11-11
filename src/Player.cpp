@@ -3,6 +3,7 @@
 #include "InputHandler.h"
 #include "Constants.h"
 #include <vector>
+#include <iostream>
 #include "Game.h"
 
 Player::Player(Game* pGame) :
