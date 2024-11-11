@@ -1,17 +1,5 @@
 #include "Game.h"
 
-#include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
-#include <iostream>
-
-#include "VampireSpawner.h"
-#include "ResourceManager.h"
-#include "InputHandler.h"
-#include "Weapon.h"
-#include "Player.h"
-#include "Rectangle.h"
-#include "Vampire.h"
-
 Game::Game() :
     m_state(State::WAITING),
     m_pClock(std::make_unique<sf::Clock>()),
@@ -155,6 +143,18 @@ void Game::update(float deltaTime)
     }
 }
 
+void drawSimpleFont(sf::RenderTarget &target, const sf::Font &font, std::string content, sf::Vector2f position, sf::Color color = sf::Color::White, bool bold = false)
+{
+	sf::Text text;
+	text.setFont(font);
+	text.setFillColor(color);
+	if (bold)
+		text.setStyle(sf::Text::Bold);
+	text.setString(content);
+	text.setPosition(position);
+	target.draw(text);
+}
+
 void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     // Draw player.
@@ -166,31 +166,23 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	 //  Draw texts.
     if (m_state == State::WAITING)
     {
-        sf::Text startText;
-        startText.setFont(m_font);
-        startText.setString("Game Start!");
-        startText.setFillColor(sf::Color::White);
-        startText.setPosition(80.0f, 80.0f);
-        startText.setStyle(sf::Text::Bold);
-        target.draw(startText);
+       drawSimpleFont(target, m_font, 
+				"Game Start!", 
+				sf::Vector2f(80, 80),
+				sf::Color::White,
+				true);
     }
 	else if (m_state == State::GAME_OVER)
 	{
-		sf::Text gameOverText;
-		gameOverText.setFont(m_font);
-		gameOverText.setString("Game Over!");
-		gameOverText.setFillColor(sf::Color::White);
-		gameOverText.setPosition(80.0f, 80.0f);
-		gameOverText.setStyle(sf::Text::Bold);
-		target.draw(gameOverText);
+		drawSimpleFont(target, m_font, 
+				"Game Over!", 
+				sf::Vector2f(80, 80),
+				sf::Color::White,
+				true);
 
-		sf::Text scoreText;
-		scoreText.setFont(m_font);
-		scoreText.setString("XP: " + std::to_string(m_xp)
-							+ "\nTime: " + std::to_string((int) m_elapsedTime));
-		scoreText.setFillColor(sf::Color::White);
-		scoreText.setPosition(80.0f, 120.0f);
-		target.draw(scoreText);
+		drawSimpleFont(target, m_font, 
+				"XP: " + std::to_string(m_xp) + "\nTime: " + std::to_string((int) m_elapsedTime), 
+				sf::Vector2f(80, 120));
 	}
 	else
     {
@@ -202,33 +194,22 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
         timerText.setPosition(sf::Vector2f((ScreenWidth - timerText.getLocalBounds().getSize().x) * 0.5, 20));
         target.draw(timerText);
 
-		sf::Text killsText;
-		killsText.setFont(m_font);
-		killsText.setFillColor(sf::Color::White);
-		killsText.setString("XP: " + std::to_string(m_xp));
-		killsText.setPosition(20, 20);
-		target.draw(killsText);
+		drawSimpleFont(target, m_font, 
+				"XP: " + std::to_string(m_xp), 
+				sf::Vector2f(20, 20));
 
-		sf::Text nextUpgradeText;
-		nextUpgradeText.setFont(m_font);
-		nextUpgradeText.setFillColor(sf::Color::White);
-		nextUpgradeText.setString("Next upgrade: " + std::to_string(m_nextUpgrade));
-		nextUpgradeText.setPosition(20, 50);
-		target.draw(nextUpgradeText);
+		drawSimpleFont(target, m_font, 
+				"Next upgrade: " + std::to_string(m_nextUpgrade), 
+				sf::Vector2f(20, 50));
 
-		sf::Text playerHealthText;
-		playerHealthText.setFont(m_font);
-		playerHealthText.setFillColor(sf::Color::Red);
-		playerHealthText.setString("Health: " + std::to_string(m_pPlayer->getHealth()));
-		playerHealthText.setPosition(20, 100);
-		target.draw(playerHealthText);
+		drawSimpleFont(target, m_font, 
+				"Health: " + std::to_string(m_pPlayer->getHealth()), 
+				sf::Vector2f(20, 100),
+				sf::Color::Red);
 
-		sf::Text enemyMaxLevelText;
-		enemyMaxLevelText.setFont(m_font);
-		enemyMaxLevelText.setFillColor(sf::Color::White);
-		enemyMaxLevelText.setString("Enemy level: " + std::to_string(m_pVampireSpawner->getMaximumLevel()));
-		enemyMaxLevelText.setPosition(20, 150);
-		target.draw(enemyMaxLevelText);
+		drawSimpleFont(target, m_font, 
+				"Enemy level: " + std::to_string(m_pVampireSpawner->getMaximumLevel()), 
+				sf::Vector2f(20, 150));
 
 		if (m_state == State::UPGRADE)
 		{

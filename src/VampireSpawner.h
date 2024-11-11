@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <iostream>
 
 #include "Game.h"
@@ -16,8 +15,6 @@ class VampireSpawner
 	int m_spawnCount;
 
 	int m_maximumLevel;
-	
-	std::map<int, float> m_spawnCooldowns;
 
 	sf::Sound m_sound;
 

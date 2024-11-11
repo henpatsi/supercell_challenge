@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Rectangle.h"
+#include "Constants.h"
 
 class Weapon : public Rectangle
 {

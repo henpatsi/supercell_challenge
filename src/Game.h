@@ -1,11 +1,20 @@
 #pragma once
 
-#include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Audio.hpp>
 #include <memory>
+#include <iostream>
+
 #include "Constants.h"
+#include "VampireSpawner.h"
+#include "ResourceManager.h"
+#include "InputHandler.h"
+#include "Weapon.h"
+#include "Player.h"
+#include "Rectangle.h"
+#include "Vampire.h"
 
 class Player;
 class Game;

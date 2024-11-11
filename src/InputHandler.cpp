@@ -1,18 +1,12 @@
 #include "InputHandler.h"
-#include "Weapon.h"
-#include "Player.h"
-#include <iostream>
 
 GameInput::GameInput(Game* pGame, Player* pPlayer) :
     m_pGame(pGame), m_pPlayer(pPlayer)
 {
-
-    
 }
 
 GameInput::~GameInput()
 {
-    
 }
 
 void GameInput::update(float deltaTime)

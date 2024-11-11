@@ -21,7 +21,7 @@ Vampire::Vampire(Game* game, sf::Vector2f position, int level) :
 
 	m_health = VampireBaseHealth * level;
 	m_damage = VampireBaseDamage * level;
-	m_moveSpeed = VampireSpeed + (level * 10);
+	m_moveSpeed = VampireBaseSpeed + (level * 10);
 	m_level = level;
 }
 

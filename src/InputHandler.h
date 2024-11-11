@@ -1,7 +1,11 @@
 #pragma once
 
 #include <SFML/Window/Keyboard.hpp>
+#include <iostream>
+
 #include "Constants.h"
+#include "Weapon.h"
+#include "Player.h"
 
 class Player;
 class Game;

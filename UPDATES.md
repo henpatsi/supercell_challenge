@@ -18,6 +18,7 @@
  - player now takes damage and only dies at 0 hp
  - vampires stop at player edge
  - vampires no longer take damage if weapon is not active
+ - random level vampire spawns for more variance
 
 ### Credits
 

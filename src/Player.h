@@ -1,9 +1,15 @@
 #pragma once
 
-#include "Rectangle.h"
 #include <SFML/Audio.hpp>
-
+#include <vector>
+#include <iostream>
 #include <memory>
+
+#include "Rectangle.h"
+#include "Weapon.h"
+#include "InputHandler.h"
+#include "Constants.h"
+#include "Game.h"
 
 #define SPRITE_SCALE 3.5f
 
