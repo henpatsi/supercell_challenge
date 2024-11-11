@@ -22,6 +22,7 @@ public:
         WAITING,
         ACTIVE,
 		UPGRADE,
+		GAME_OVER,
     };
     
     Game();

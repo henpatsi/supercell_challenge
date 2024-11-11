@@ -4,6 +4,7 @@ const int ScreenWidth = 1600;
 const int ScreenHeight = 1200;
 
 const float StartWaitTime = 1.0f;
+const float GameOverWaitTime = 3.0f;
 
 const float PlayerHeight = 55.0f;
 const float PlayerWidth = 55.0f;

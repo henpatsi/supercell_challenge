@@ -92,12 +92,13 @@ void Game::update(float deltaTime)
 
             if (m_pPlayer->isDead())
             {
-                m_state = State::WAITING;
-                resetLevel();
+                m_state = State::GAME_OVER;
+                m_pClock->restart();
             }
 
 			m_elapsedTime += deltaTime;
         }
+		break;
 
 		case State::UPGRADE:
 		{
@@ -106,8 +107,17 @@ void Game::update(float deltaTime)
 				m_state = State::ACTIVE;
 			}
 		}
+		break;
 
-        break;
+		case State::GAME_OVER:
+		{
+			if (m_pClock->getElapsedTime().asSeconds() >= GameOverWaitTime)
+			{
+				resetLevel();
+				m_state = State::WAITING;
+			}
+		}
+		break;
     }
 
     int i = 0;
@@ -125,7 +135,16 @@ void Game::update(float deltaTime)
 
 void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-    //  Draw texts.
+    // Draw player.
+    m_pPlayer->draw(target, states);
+
+    //  Draw world.
+    for (auto& temp : m_pVampires)
+    {
+        temp->draw(target, states);
+    }
+
+	 //  Draw texts.
     if (m_state == State::WAITING)
     {
         sf::Text startText;
@@ -136,6 +155,25 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
         startText.setStyle(sf::Text::Bold);
         target.draw(startText);
     }
+	else if (m_state == State::GAME_OVER)
+	{
+		sf::Text gameOverText;
+		gameOverText.setFont(m_font);
+		gameOverText.setString("Game Over!");
+		gameOverText.setFillColor(sf::Color::White);
+		gameOverText.setPosition(80.0f, 80.0f);
+		gameOverText.setStyle(sf::Text::Bold);
+		target.draw(gameOverText);
+
+		sf::Text scoreText;
+		scoreText.setFont(m_font);
+		scoreText.setString("Kills: " + std::to_string(m_kills)
+							+ "\nTime: " + std::to_string((int) m_elapsedTime));
+		scoreText.setFillColor(sf::Color::White);
+		scoreText.setPosition(80.0f, 120.0f);
+		target.draw(scoreText);
+	}
+	else
     {
         sf::Text timerText;
         timerText.setFont(m_font);
@@ -171,15 +209,6 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 			upgradeText.setPosition(sf::Vector2f((ScreenWidth - upgradeText.getLocalBounds().getSize().x) * 0.5, (ScreenHeight - upgradeText.getLocalBounds().getSize().y) * 0.5));
 			target.draw(upgradeText);
 		}
-    }
-
-    // Draw player.
-    m_pPlayer->draw(target, states);
-
-    //  Draw world.
-    for (auto& temp : m_pVampires)
-    {
-        temp->draw(target, states);
     }
 }
 
