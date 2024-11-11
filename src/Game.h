@@ -10,6 +10,7 @@ class Player;
 class Game;
 class GameInput;
 class Vampire;
+class VampireSpawner;
 
 namespace sf { class Clock; }
 
@@ -42,26 +43,19 @@ public:
     sf::Texture* getPlayerTexture() { return &m_playerTexture; }
     sf::Texture* getVampireTexture() { return &m_vampTexture; }
 
-    void vampireSpawner(float deltaTime);
-
-	void onVampireKilled();
-	void upgrade();
+	void onVampireKilled(int level);
 
 private:
     std::unique_ptr<Player> m_pPlayer;
 
-    std::vector<std::unique_ptr<Vampire>> m_pVampires;
+	std::unique_ptr<VampireSpawner> m_pVampireSpawner;
 
     State m_state;
     std::unique_ptr<sf::Clock> m_pClock;
-	float m_elapsedTime = 0;
-	int m_kills = 0;
-	int m_nextUpgrade = 1;
+	float m_elapsedTime;
+	int m_xp;
+	int m_nextUpgrade;
     std::unique_ptr<GameInput> m_pGameInput;
-
-    float m_vampireCooldown = 0.0f;
-    float m_nextVampireCooldown = 2.0f;
-    int m_spawnCount = 0;
     
     sf::Font m_font;
     sf::Texture m_vampTexture;

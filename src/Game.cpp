@@ -4,6 +4,7 @@
 #include <SFML/System.hpp>
 #include <iostream>
 
+#include "VampireSpawner.h"
 #include "ResourceManager.h"
 #include "InputHandler.h"
 #include "Weapon.h"
@@ -15,8 +16,7 @@ Game::Game() :
     m_state(State::WAITING),
     m_pClock(std::make_unique<sf::Clock>()),
     m_pPlayer(std::make_unique<Player>(this)),
-    m_vampireCooldown(2.0f),
-    m_nextVampireCooldown(2.0f)
+	m_pVampireSpawner(std::make_unique<VampireSpawner>(this))
 {
     m_pGameInput = std::make_unique<GameInput>(this, m_pPlayer.get());
 }
@@ -54,13 +54,13 @@ bool Game::initialise()
 
 void Game::resetLevel()
 {
-    m_pVampires.clear();
-
     m_pPlayer->initialise();
     m_pClock->restart();
+	m_pVampireSpawner->initialise();
+
 	m_elapsedTime = 0;
 
-	m_kills = 0;
+	m_xp = 0;
 	m_nextUpgrade = 1;
 }
 
@@ -83,12 +83,7 @@ void Game::update(float deltaTime)
         {
             m_pGameInput->update(deltaTime);
             m_pPlayer->update(deltaTime);
-
-            vampireSpawner(deltaTime);
-            for (auto& temp : m_pVampires)
-            {
-                temp->update(deltaTime);
-            }
+			m_pVampireSpawner->update(deltaTime);
 
             if (m_pPlayer->isDead())
             {
@@ -119,18 +114,6 @@ void Game::update(float deltaTime)
 		}
 		break;
     }
-
-    int i = 0;
-    while (i < m_pVampires.size())
-    {
-        if (m_pVampires[i]->isKilled())
-        {
-            std::swap(m_pVampires[i], m_pVampires.back());
-            m_pVampires.pop_back();
-            continue;
-        }
-        i++;
-    }
 }
 
 void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
@@ -139,10 +122,7 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
     m_pPlayer->draw(target, states);
 
     //  Draw world.
-    for (auto& temp : m_pVampires)
-    {
-        temp->draw(target, states);
-    }
+	m_pVampireSpawner->draw(target, states);
 
 	 //  Draw texts.
     if (m_state == State::WAITING)
@@ -167,7 +147,7 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 		sf::Text scoreText;
 		scoreText.setFont(m_font);
-		scoreText.setString("Kills: " + std::to_string(m_kills)
+		scoreText.setString("XP: " + std::to_string(m_xp)
 							+ "\nTime: " + std::to_string((int) m_elapsedTime));
 		scoreText.setFillColor(sf::Color::White);
 		scoreText.setPosition(80.0f, 120.0f);
@@ -186,7 +166,7 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 		sf::Text killsText;
 		killsText.setFont(m_font);
 		killsText.setFillColor(sf::Color::White);
-		killsText.setString("Kills: " + std::to_string(m_kills));
+		killsText.setString("XP: " + std::to_string(m_xp));
 		killsText.setPosition(20, 20);
 		target.draw(killsText);
 
@@ -202,7 +182,7 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 			sf::Text upgradeText;
 			upgradeText.setFont(m_font);
 			upgradeText.setFillColor(sf::Color::White);
-			upgradeText.setString("Press numbers to upgrade!\n\n1 : Speed\n2 : Damage\n3 : Attack Size\n\nCurrent speed: "
+			upgradeText.setString("Press 1, 2, or 3 to upgrade!\n\n1 : Speed\n2 : Damage\n3 : Attack Size\n\nCurrent speed: "
 									+ std::to_string(m_pPlayer->getMoveSpeed()) 
 									+ "\nCurrent damage: " + std::to_string(m_pPlayer->getWeapon()->getDamage())
 									+ "\nCurrent attack size: " + std::to_string(m_pPlayer->getWeapon()->getAttackSize()));
@@ -211,7 +191,6 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
 		}
     }
 }
-
 
 void Game::onKeyPressed(sf::Keyboard::Key key)
 {
@@ -228,45 +207,12 @@ Player* Game::getPlayer() const
     return m_pPlayer.get();
 }
 
-void Game::vampireSpawner(float deltaTime)
+void Game::onVampireKilled(int level)
 {
-    if (m_vampireCooldown > 0.0f)
-    {
-        m_vampireCooldown -= deltaTime;
-        return;
-    }
-
-    float randomXPos = rand() % ScreenWidth;
-    float randomYPos = rand() % ScreenHeight;
-
-    float distToRight = (float) ScreenWidth - randomXPos;
-    float distToBottom = (float) ScreenHeight - randomYPos;
-
-    float xMinDist = randomXPos < distToRight ? -randomXPos : distToRight;
-    float yMinDist = randomYPos < distToBottom ? -randomYPos : distToBottom;
-
-    if (abs(xMinDist) < abs(yMinDist))
-        randomXPos += xMinDist;
-    else
-        randomYPos += yMinDist;
-
-    sf::Vector2f spawnPosition = sf::Vector2f(randomXPos, randomYPos);
-    m_pVampires.push_back(std::make_unique<Vampire>(this, spawnPosition));
-
-    m_spawnCount++;
-    if (m_spawnCount % 5 == 0)
-    {
-        m_nextVampireCooldown -= 0.1f;
-    }
-    m_vampireCooldown = m_nextVampireCooldown;
-}
-
-void Game::onVampireKilled()
-{
-	m_kills++;
-	if (m_kills >= m_nextUpgrade)
+	m_xp += level;
+	if (m_xp >= m_nextUpgrade)
 	{
 		m_state = State::UPGRADE;
-		m_nextUpgrade += m_nextUpgrade * 2;
+		m_nextUpgrade += m_nextUpgrade * UpgradeCostMultiplier;
 	}
 }

@@ -5,8 +5,10 @@
 #include "Player.h"
 #include "MathUtils.h"
 
-Vampire::Vampire(Game* game, sf::Vector2f position) :
-    Rectangle(sf::Vector2f(VampireWidth, VampireHeight)),
+#include <iostream>
+
+Vampire::Vampire(Game* game, sf::Vector2f position, int level) :
+    Rectangle(sf::Vector2f(VampireWidth * level, VampireHeight * level)),
     m_pGame(game)
 {
     setPosition(position);
@@ -14,7 +16,14 @@ Vampire::Vampire(Game* game, sf::Vector2f position) :
     m_isKilled = false;
 
     m_sprite.setTexture(*m_pGame->getVampireTexture());
-    m_sprite.setScale(2.0f, 2.0f);
+    m_sprite.setScale(2.0f, 2.0f); // Scale the sprite to match the rectangle size
+	m_sprite.scale(level, level);
+
+	std::cout << "Sprite size: " << m_sprite.getGlobalBounds().width << " " << m_sprite.getGlobalBounds().height << std::endl;
+	std::cout << "Rectangle size: " << getSize().x << " " << getSize().y << std::endl;
+
+	m_health = VampireBaseHealth * level;
+	m_level = level;
 }
 
 void Vampire::update(float deltaTime)
@@ -28,7 +37,7 @@ void Vampire::update(float deltaTime)
     {
         takeDamage(pPlayer->getWeapon()->getDamage(), pPlayer->getWeapon()->getAttackID());
 		if (m_isKilled)
-			m_pGame->onVampireKilled();
+			m_pGame->onVampireKilled(m_level);
         return;
     }
 

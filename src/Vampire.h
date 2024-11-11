@@ -7,7 +7,7 @@ class Game;
 class Vampire : public Rectangle
 {
 public:
-    Vampire(Game* game, sf::Vector2f position);
+    Vampire(Game* game, sf::Vector2f position, int level);
     virtual ~Vampire() {}
     
     void update(float deltaTime);
@@ -20,7 +20,8 @@ private:
     Game* m_pGame;
     bool m_isKilled = false;
 
-	int m_health = 20;
+	int m_level;
+	int m_health;
 
 	float m_stopDuration = 0.2f;
 	float m_stopTimer = 0.0f;
