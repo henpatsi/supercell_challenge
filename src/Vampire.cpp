@@ -27,6 +27,8 @@ void Vampire::update(float deltaTime)
     if (collidesWith(pPlayer->getWeapon()))
     {
         takeDamage(pPlayer->getWeapon()->getDamage(), pPlayer->getWeapon()->getAttackID());
+		if (m_isKilled)
+			m_pGame->onVampireKilled();
         return;
     }
 

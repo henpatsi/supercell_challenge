@@ -43,6 +43,9 @@ public:
 
     void vampireSpawner(float deltaTime);
 
+	void onVampireKilled();
+	void upgrade();
+
 private:
     std::unique_ptr<Player> m_pPlayer;
 
@@ -50,6 +53,9 @@ private:
 
     State m_state;
     std::unique_ptr<sf::Clock> m_pClock;
+	float m_elapsedTime = 0;
+	int m_kills = 0;
+	int m_nextUpgrade = 1;
     std::unique_ptr<GameInput> m_pGameInput;
 
     float m_vampireCooldown = 0.0f;

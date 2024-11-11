@@ -58,6 +58,7 @@ void Game::resetLevel()
 
     m_pPlayer->initialise();
     m_pClock->restart();
+	m_elapsedTime = 0;
 }
 
 void Game::update(float deltaTime)
@@ -70,6 +71,7 @@ void Game::update(float deltaTime)
             {
                 m_state = State::ACTIVE;
                 m_pClock->restart();
+				m_elapsedTime = 0;
             }
         }
         break;
@@ -78,7 +80,6 @@ void Game::update(float deltaTime)
         {
             m_pGameInput->update(deltaTime);
             m_pPlayer->update(deltaTime);
-			m_pGameInput->upgrade();
 
             vampireSpawner(deltaTime);
             for (auto& temp : m_pVampires)
@@ -91,11 +92,16 @@ void Game::update(float deltaTime)
                 m_state = State::WAITING;
                 resetLevel();
             }
+
+			m_elapsedTime += deltaTime;
         }
 
 		case State::UPGRADE:
 		{
-			m_pGameInput->upgrade();
+			if (m_pGameInput->upgrade())
+			{
+				m_state = State::ACTIVE;
+			}
 		}
 
         break;
@@ -127,15 +133,19 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
         startText.setStyle(sf::Text::Bold);
         target.draw(startText);
     }
-    else
     {
         sf::Text timerText;
         timerText.setFont(m_font);
         timerText.setFillColor(sf::Color::White);
         timerText.setStyle(sf::Text::Bold);
-        timerText.setString(std::to_string((int)m_pClock->getElapsedTime().asSeconds()));
+        timerText.setString(std::to_string((int) m_elapsedTime));
         timerText.setPosition(sf::Vector2f((ScreenWidth - timerText.getLocalBounds().getSize().x) * 0.5, 20));
         target.draw(timerText);
+
+		if (m_state == State::UPGRADE)
+		{
+			// TODO
+		}
     }
 
     // Draw player.
@@ -195,4 +205,14 @@ void Game::vampireSpawner(float deltaTime)
         m_nextVampireCooldown -= 0.1f;
     }
     m_vampireCooldown = m_nextVampireCooldown;
+}
+
+void Game::onVampireKilled()
+{
+	m_kills++;
+	if (m_kills >= m_nextUpgrade)
+	{
+		m_state = State::UPGRADE;
+		m_nextUpgrade += m_nextUpgrade * 2;
+	}
 }

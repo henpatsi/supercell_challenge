@@ -28,7 +28,7 @@ public:
     ~GameInput();
     
     void update(float deltaTime);
-	void upgrade();
+	bool upgrade();
     void onKeyPressed(sf::Keyboard::Key key);
     void onKeyReleased(sf::Keyboard::Key key);
     

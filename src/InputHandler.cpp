@@ -27,23 +27,28 @@ void GameInput::update(float deltaTime)
     }
 }
 
-void GameInput::upgrade()
+bool GameInput::upgrade()
 {
 	if (m_inputData.m_upgrade1)
 	{
 		m_pPlayer->upgradeSpeed(20);
 		m_inputData.m_upgrade1 = false;
+		return true;
 	}
 	else if (m_inputData.m_upgrade2)
 	{
 		m_pPlayer->upgradeDamage(10);
 		m_inputData.m_upgrade2 = false;
+		return true;
 	}
 	else if (m_inputData.m_upgrade3)
 	{
 		m_pPlayer->upgradeAttackSize(0.05);
 		m_inputData.m_upgrade3 = false;
+		return true;
 	}
+
+	return false;
 }
 
 void GameInput::onKeyPressed(sf::Keyboard::Key key)
