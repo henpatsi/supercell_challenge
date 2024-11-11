@@ -8,6 +8,12 @@ Weapon::Weapon() : Rectangle(sf::Vector2f(0, 0))
     setColor(sf::Color::Blue);
 }
 
+void Weapon::initialize()
+{
+	m_damage = PlayerStartingDamage;
+	m_attackSize = PlayerStartingAttackSize;
+}
+
 void Weapon::setActive(bool isActive, bool isVertical)
 {
     m_isActive = isActive;

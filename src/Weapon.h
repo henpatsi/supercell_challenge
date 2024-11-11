@@ -8,6 +8,8 @@ public:
     Weapon();
     virtual ~Weapon() {}
 
+	void initialize();
+
     void setActive(bool isActive, bool isVertical = false);
     void update(float deltaTime);
     bool isActive() { return m_isActive; }
@@ -25,8 +27,8 @@ private:
     bool m_isActive = false;
     float m_timer = 0.0f;
 
-	int m_damage = 10;
-	float m_attackSize = 1.0f;
+	int m_damage;
+	float m_attackSize;
 
 	float m_weaponHeight = 10.0f;
 	float m_weaponWidth = 100.0f;

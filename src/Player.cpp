@@ -21,6 +21,12 @@ bool Player::initialise()
     setPosition(ScreenWidth / 2, ScreenHeight / 2);
     m_sprite.setPosition(getPosition());
 	m_pWeapon->setActive(false);
+
+	m_moveSpeed = PlayerStartingMoveSpeed;
+	m_attackCooldown = PlayerStartingAttackCooldown;
+
+	m_pWeapon->initialize();
+
     return true;
 }
 

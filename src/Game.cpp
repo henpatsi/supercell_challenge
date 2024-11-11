@@ -59,6 +59,9 @@ void Game::resetLevel()
     m_pPlayer->initialise();
     m_pClock->restart();
 	m_elapsedTime = 0;
+
+	m_kills = 0;
+	m_nextUpgrade = 1;
 }
 
 void Game::update(float deltaTime)
@@ -141,6 +144,20 @@ void Game::draw(sf::RenderTarget &target, sf::RenderStates states) const
         timerText.setString(std::to_string((int) m_elapsedTime));
         timerText.setPosition(sf::Vector2f((ScreenWidth - timerText.getLocalBounds().getSize().x) * 0.5, 20));
         target.draw(timerText);
+
+		sf::Text killsText;
+		killsText.setFont(m_font);
+		killsText.setFillColor(sf::Color::White);
+		killsText.setString("Kills: " + std::to_string(m_kills));
+		killsText.setPosition(20, 20);
+		target.draw(killsText);
+
+		sf::Text nextUpgradeText;
+		nextUpgradeText.setFont(m_font);
+		nextUpgradeText.setFillColor(sf::Color::White);
+		nextUpgradeText.setString("Next upgrade: " + std::to_string(m_nextUpgrade));
+		nextUpgradeText.setPosition(20, 50);
+		target.draw(nextUpgradeText);
 
 		if (m_state == State::UPGRADE)
 		{

@@ -49,8 +49,8 @@ private:
     Game*   m_pGame;
     std::unique_ptr<Weapon> m_pWeapon;
 
-	int m_moveSpeed = 100.0f;
+	int m_moveSpeed;
 
-	float m_attackCooldown = 0.5f;
+	float m_attackCooldown;
 	float m_attackTimer = 0.0f;
 };
