@@ -19,8 +19,3 @@
  - vampires stop at player edge
  - vampires no longer take damage if weapon is not active
  - random level vampire spawns for more variance
-
-### Credits
-
-Music - https://clement-panchout.itch.io/yet-another-free-music-pack
-SFX - https://leohpaz.itch.io/minifantasy-dungeon-sfx-pack
