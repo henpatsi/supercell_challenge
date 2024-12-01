@@ -9,6 +9,10 @@ GameInput::~GameInput()
 {
 }
 
+
+// Loop
+
+
 void GameInput::update(float deltaTime)
 {
     if (m_inputData.hasInputs())
@@ -45,6 +49,10 @@ bool GameInput::upgrade()
 
 	return false;
 }
+
+
+// Events
+
 
 void GameInput::onKeyPressed(sf::Keyboard::Key key)
 {

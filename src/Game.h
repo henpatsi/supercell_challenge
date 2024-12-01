@@ -27,60 +27,67 @@ namespace sf { class Clock; }
 class Game : public sf::Drawable
 {
 public:
-    
+
     enum class State
     {
         WAITING,
         ACTIVE,
-		UPGRADE,
-		GAME_OVER,
+        UPGRADE,
+        GAME_OVER,
     };
-    
+
     Game();
     ~Game();
-    
+
+    // Start
     bool initialise();
-    void update(float deltaTime);
     void resetLevel();
+
+    // Loop
+    void update(float deltaTime);
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
-    
-    State getState() const { return m_state; }
-    
+
+    // Events
     void onKeyPressed(sf::Keyboard::Key key);
     void onKeyReleased(sf::Keyboard::Key key);
+    void onVampireKilled(int level);
 
+    // Getters
+    State getState() const { return m_state; }
     Player* getPlayer() const;
+
     sf::Texture* getPlayerTexture() { return &m_playerTexture; }
     sf::Texture* getVampireTexture() { return &m_vampTexture; }
 
-	sf::SoundBuffer* getVampireDeathBuffer() { return &m_vampireDeathBuffer; }
-	sf::SoundBuffer* getVampireHitBuffer() { return &m_vampireHitBuffer; }
-	sf::SoundBuffer* getPlayerDeathBuffer() { return &m_playerDeathBuffer; }
-	sf::SoundBuffer* getPlayerHitBuffer() { return &m_playerHitBuffer; }
-	sf::SoundBuffer* getPlayerAttackBuffer() { return &m_playerAttackBuffer; }
-
-	void onVampireKilled(int level);
+    sf::SoundBuffer* getVampireDeathBuffer() { return &m_vampireDeathBuffer; }
+    sf::SoundBuffer* getVampireHitBuffer() { return &m_vampireHitBuffer; }
+    sf::SoundBuffer* getPlayerDeathBuffer() { return &m_playerDeathBuffer; }
+    sf::SoundBuffer* getPlayerHitBuffer() { return &m_playerHitBuffer; }
+    sf::SoundBuffer* getPlayerAttackBuffer() { return &m_playerAttackBuffer; }
 
 private:
-    std::unique_ptr<Player> m_pPlayer;
-
-	std::unique_ptr<VampireSpawner> m_pVampireSpawner;
-
-    State m_state;
+    // References
     std::unique_ptr<sf::Clock> m_pClock;
-	float m_elapsedTime;
-	int m_xp;
-	int m_nextUpgrade;
     std::unique_ptr<GameInput> m_pGameInput;
-    
+    std::unique_ptr<Player> m_pPlayer;
+    std::unique_ptr<VampireSpawner> m_pVampireSpawner;
+
+    // Variables
+    State m_state;
+    float m_elapsedTime;
+    int m_xp;
+    int m_nextUpgrade;
+
+    // Fonts
     sf::Font m_font;
     sf::Texture m_vampTexture;
     sf::Texture m_playerTexture;
 
-	sf::Music m_music;
-	sf::SoundBuffer m_vampireDeathBuffer;
-	sf::SoundBuffer m_vampireHitBuffer;
-	sf::SoundBuffer m_playerDeathBuffer;
-	sf::SoundBuffer m_playerHitBuffer;
-	sf::SoundBuffer m_playerAttackBuffer;
+    // Audio
+    sf::Music m_music;
+    sf::SoundBuffer m_vampireDeathBuffer;
+    sf::SoundBuffer m_vampireHitBuffer;
+    sf::SoundBuffer m_playerDeathBuffer;
+    sf::SoundBuffer m_playerHitBuffer;
+    sf::SoundBuffer m_playerAttackBuffer;
 };
