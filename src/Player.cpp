@@ -1,20 +1,24 @@
 #include "Player.h"
 
 Player::Player(Game* pGame) :
-    Rectangle(sf::Vector2f(PlayerWidth, PlayerHeight)),
-    m_pGame(pGame),
-    m_pWeapon(std::make_unique<Weapon>()),
+	Rectangle(sf::Vector2f(PlayerWidth, PlayerHeight)),
+	m_pGame(pGame),
+	m_pWeapon(std::make_unique<Weapon>()),
 	m_pHealthBar(std::make_unique<HealthBar>(PlayerStartingHealth))
 {
-    setOrigin(sf::Vector2f(0.0f, 0.0f));
+	setOrigin(sf::Vector2f(0.0f, 0.0f));
 }
+
+
+// Start
+
 
 bool Player::initialise()
 {
-    m_sprite.setTexture(*m_pGame->getPlayerTexture());
-    m_sprite.setScale(SPRITE_SCALE, SPRITE_SCALE);
-    setPosition(ScreenWidth / 2, ScreenHeight / 2);
-    m_sprite.setPosition(getPosition());
+	m_sprite.setTexture(*m_pGame->getPlayerTexture());
+	m_sprite.setScale(SPRITE_SCALE, SPRITE_SCALE);
+	setPosition(ScreenWidth / 2, ScreenHeight / 2);
+	m_sprite.setPosition(getPosition());
 	m_pWeapon->setActive(false);
 
 	m_isDead = false;
@@ -31,24 +35,52 @@ bool Player::initialise()
 	m_pHealthBar->setPosition(getCenter() + sf::Vector2f(0, -m_sprite.getGlobalBounds().height * 0.5f - 20));
 	m_pHealthBar->updateHealth(m_health);
 
-    return true;
+	return true;
 }
+
+
+// Loop
+
+
+void Player::update(float deltaTime)
+{
+	m_sprite.setPosition(getPosition());
+	setWeaponPosition();
+	m_pWeapon->update(deltaTime);
+
+	if (m_attackTimer > 0.0f)
+		m_attackTimer -= deltaTime;
+	if (m_damageTimer > 0.0f)
+		m_damageTimer -= deltaTime;
+	
+	m_pHealthBar->setPosition(getCenter() + sf::Vector2f(0, -m_sprite.getGlobalBounds().height * 0.5f - 20));
+}
+
+void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+	Rectangle::draw(target, states);
+	m_pWeapon->draw(target, states);
+}
+
+
+// Functionality
+
 
 void Player::move(InputData inputData, float deltaTime)
 {
-    float xSpeed = 0.0f;
-    float ySpeed = 0.0f;
-    
-    xSpeed -= inputData.m_movingLeft * m_moveSpeed;
-    xSpeed += inputData.m_movingRight * m_moveSpeed;
-    xSpeed *= deltaTime;
+	float xSpeed = 0.0f;
+	float ySpeed = 0.0f;
+	
+	xSpeed -= inputData.m_movingLeft * m_moveSpeed;
+	xSpeed += inputData.m_movingRight * m_moveSpeed;
+	xSpeed *= deltaTime;
 
-    ySpeed -= inputData.m_movingUp * m_moveSpeed;
-    ySpeed += inputData.m_movingDown * m_moveSpeed;
-    ySpeed *= deltaTime;
-    
-    sf::Transformable::move(sf::Vector2f(xSpeed, ySpeed));
-    setPosition(std::clamp(getPosition().x, 0.0f, (float)ScreenWidth - PlayerWidth), std::clamp(getPosition().y, 0.0f, (float)ScreenHeight - PlayerHeight * SPRITE_SCALE)); // TODO why scale only for height?
+	ySpeed -= inputData.m_movingUp * m_moveSpeed;
+	ySpeed += inputData.m_movingDown * m_moveSpeed;
+	ySpeed *= deltaTime;
+	
+	sf::Transformable::move(sf::Vector2f(xSpeed, ySpeed));
+	setPosition(std::clamp(getPosition().x, 0.0f, (float)ScreenWidth - PlayerWidth), std::clamp(getPosition().y, 0.0f, (float)ScreenHeight - PlayerHeight * SPRITE_SCALE)); // TODO why scale only for height?
 
 	if (m_pWeapon->isActive() == false)
 	{
@@ -60,7 +92,7 @@ void Player::move(InputData inputData, float deltaTime)
 			m_direction = UP;
 		else if (inputData.m_movingUp == false && inputData.m_movingDown == true)
 			m_direction = DOWN;
-    }
+	}
 }
 
 void Player::attack()
@@ -70,7 +102,7 @@ void Player::attack()
 	m_attackTimer = m_attackCooldown;
 
 	if (m_direction == LEFT || m_direction == RIGHT)
-    	m_pWeapon->setActive(true);
+		m_pWeapon->setActive(true);
 	else
 		m_pWeapon->setActive(true, true);
 
@@ -95,20 +127,6 @@ void Player::takeDamage(int damage)
 	m_sound.play();
 
 	m_pHealthBar->updateHealth(m_health);
-	m_pHealthBar->setPosition(getCenter() + sf::Vector2f(0, -m_sprite.getGlobalBounds().height * 0.5f - 20));
-}
-
-void Player::update(float deltaTime)
-{
-    m_sprite.setPosition(getPosition());
-	setWeaponPosition();
-    m_pWeapon->update(deltaTime);
-
-	if (m_attackTimer > 0.0f)
-		m_attackTimer -= deltaTime;
-	if (m_damageTimer > 0.0f)
-		m_damageTimer -= deltaTime;
-	
 	m_pHealthBar->setPosition(getCenter() + sf::Vector2f(0, -m_sprite.getGlobalBounds().height * 0.5f - 20));
 }
 
@@ -142,13 +160,9 @@ void Player::setWeaponPosition()
 	m_pWeapon->setPosition(sf::Vector2f(weaponX, weaponY));
 }
 
-void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
-{
-    Rectangle::draw(target, states);
-    m_pWeapon->draw(target, states);
-}
 
 // Upgrades
+
 
 void Player::upgradeSpeed(float amount)
 {
