@@ -25,11 +25,6 @@ struct InputData
     bool hasInputs() { return m_movingUp || m_movingDown || m_movingLeft || m_movingRight || m_space;}
 };
 
-/* TODO
-input handler should not have to know about player
-player could instead check input handler key states
-*/
-
 class GameInput
 {
 public:

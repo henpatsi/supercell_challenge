@@ -56,6 +56,36 @@ void Player::update(float deltaTime)
 	m_pHealthBar->setPosition(getCenter() + sf::Vector2f(0, -m_sprite.getGlobalBounds().height * 0.5f - 20));
 }
 
+void Player::setWeaponPosition()
+{
+	sf::Vector2f weaponSize = m_pWeapon->getSize();
+	float weaponX = 0.0f;
+	float weaponY = 0.0f;
+	float rotation = 0.0f;
+
+	switch (m_direction)
+	{
+		case LEFT:
+			weaponX = getCenter().x - weaponSize.x;
+			weaponY = getCenter().y - weaponSize.y / 2.0f;
+			break;
+		case RIGHT:
+			weaponX = getCenter().x;
+			weaponY = getCenter().y - weaponSize.y / 2.0f;
+			break;
+		case UP:
+			weaponX = getCenter().x - weaponSize.x / 2.0f;
+			weaponY = getCenter().y - weaponSize.y;
+			break;
+		case DOWN:
+			weaponX = getCenter().x - weaponSize.x / 2.0f;
+			weaponY = getCenter().y;
+			break;
+	}
+
+	m_pWeapon->setPosition(sf::Vector2f(weaponX, weaponY));
+}
+
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	Rectangle::draw(target, states);
@@ -128,36 +158,6 @@ void Player::takeDamage(int damage)
 
 	m_pHealthBar->updateHealth(m_health);
 	m_pHealthBar->setPosition(getCenter() + sf::Vector2f(0, -m_sprite.getGlobalBounds().height * 0.5f - 20));
-}
-
-void Player::setWeaponPosition()
-{
-	sf::Vector2f weaponSize = m_pWeapon->getSize();
-	float weaponX = 0.0f;
-	float weaponY = 0.0f;
-	float rotation = 0.0f;
-
-	switch (m_direction)
-	{
-		case LEFT:
-			weaponX = getCenter().x - weaponSize.x;
-			weaponY = getCenter().y - weaponSize.y / 2.0f;
-			break;
-		case RIGHT:
-			weaponX = getCenter().x;
-			weaponY = getCenter().y - weaponSize.y / 2.0f;
-			break;
-		case UP:
-			weaponX = getCenter().x - weaponSize.x / 2.0f;
-			weaponY = getCenter().y - weaponSize.y;
-			break;
-		case DOWN:
-			weaponX = getCenter().x - weaponSize.x / 2.0f;
-			weaponY = getCenter().y;
-			break;
-	}
-
-	m_pWeapon->setPosition(sf::Vector2f(weaponX, weaponY));
 }
 
 

@@ -7,31 +7,19 @@ Weapon::Weapon() : Rectangle(sf::Vector2f(0, 0))
     setColor(sf::Color::Blue);
 }
 
+
+// Start
+
+
 void Weapon::initialize()
 {
-	m_damage = PlayerStartingDamage;
-	m_attackSize = PlayerStartingAttackSize;
+    m_damage = PlayerStartingDamage;
+    m_attackSize = PlayerStartingAttackSize;
 }
 
-void Weapon::setActive(bool isActive, bool isVertical)
-{
-    m_isActive = isActive;
-    if (isActive)
-    {
-		if (!isVertical)
-        	setSize(sf::Vector2f(m_weaponWidth, m_weaponHeight));
-		else
-			setSize(sf::Vector2f(m_weaponHeight, m_weaponWidth));
-        m_timer = m_weaponActiveTime;
 
-		m_attackID++;
-    }
-    else
-    {
-        setSize(sf::Vector2f(0.0f, 0.0f));
-        m_timer = 0.0f;
-    }
-}
+// Loop
+
 
 void Weapon::update(float deltaTime)
 {
@@ -53,16 +41,38 @@ void Weapon::draw(sf::RenderTarget &target, sf::RenderStates states) const
     target.draw(graphicsRect);
 }
 
-// Upgrade
+
+// Setters
+
+
+void Weapon::setActive(bool isActive, bool isVertical)
+{
+    m_isActive = isActive;
+    if (isActive)
+    {
+        if (!isVertical)
+            setSize(sf::Vector2f(m_weaponWidth, m_weaponHeight));
+        else
+            setSize(sf::Vector2f(m_weaponHeight, m_weaponWidth));
+        m_timer = m_weaponActiveTime;
+
+        m_attackID++;
+    }
+    else
+    {
+        setSize(sf::Vector2f(0.0f, 0.0f));
+        m_timer = 0.0f;
+    }
+}
 
 void Weapon::upgradeDamage(int amount)
 {
-	m_damage += amount;
+    m_damage += amount;
 }
 
 void Weapon::upgradeAttackSize(float amount)
 {
-	m_attackSize += amount;
-	m_weaponWidth *= m_attackSize;
-	m_weaponHeight *= m_attackSize;
+    m_attackSize += amount;
+    m_weaponWidth *= m_attackSize;
+    m_weaponHeight *= m_attackSize;
 }

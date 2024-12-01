@@ -8,27 +8,34 @@
 class VampireSpawner
 {
 public:
-	VampireSpawner(Game* game);
-	~VampireSpawner() {}
+    VampireSpawner(Game* game);
+    ~VampireSpawner() {}
 
-	void update(float deltaTime);
-	void updateSpawn(float deltaTime);
-	void initialise();
+    // Start
+    void initialise();
 
-	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+    // Loop
+    void update(float deltaTime);
+    void updateSpawn(float deltaTime);
+    void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
-	std::vector<std::unique_ptr<Vampire>>& getVampires() { return m_pVampires; }
-	int getMaximumLevel() { return m_maximumLevel; }
+    // Getters
+    std::vector<std::unique_ptr<Vampire>>& getVampires() { return m_pVampires; }
+    int getMaximumLevel() { return m_maximumLevel; }
 
 private:
-	Game*	m_pGame;
-	std::vector<std::unique_ptr<Vampire>> m_pVampires;
+    // References
+    Game* m_pGame;
+    std::vector<std::unique_ptr<Vampire>> m_pVampires;
 
-	float m_vampireSpawnTimer;
-	float m_vampireSpawnCooldown;
-	int m_spawnCount;
+    // Timers
+    float m_vampireSpawnTimer;
+    float m_vampireSpawnCooldown;
 
-	int m_maximumLevel;
+    // Variables
+    int m_spawnCount;
+    int m_maximumLevel;
 
-	sf::Sound m_sound;
+    // Audio
+    sf::Sound m_sound;
 };

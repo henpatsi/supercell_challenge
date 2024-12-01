@@ -1,26 +1,43 @@
-#include "VampireSpawner.h"
+    #include "VampireSpawner.h"
 
 VampireSpawner::VampireSpawner(Game* game) :
-	m_pGame(game)
+    m_pGame(game)
 {
 }
 
+
+// Start
+
+
+void VampireSpawner::initialise()
+{
+    m_pVampires.clear();
+    m_vampireSpawnTimer = 0.0f;
+    m_vampireSpawnCooldown = StartingVampireSpawnCooldown;
+    m_spawnCount = 0;
+    m_maximumLevel = 1;
+}
+
+
+// Loop
+
+
 void VampireSpawner::update(float deltaTime)
 {
-	updateSpawn(deltaTime);
+    updateSpawn(deltaTime);
 
-	for (auto& temp : m_pVampires)
-	{
-		temp->update(deltaTime);
-	}
+    for (auto& temp : m_pVampires)
+    {
+        temp->update(deltaTime);
+    }
 
-	int i = 0;
+    int i = 0;
     while (i < m_pVampires.size())
     {
         if (m_pVampires[i]->isKilled())
         {
-			m_sound.setBuffer(*m_pGame->getVampireDeathBuffer());
-			m_sound.play();
+            m_sound.setBuffer(*m_pGame->getVampireDeathBuffer());
+            m_sound.play();
 
             std::swap(m_pVampires[i], m_pVampires.back());
             m_pVampires.pop_back();
@@ -32,7 +49,7 @@ void VampireSpawner::update(float deltaTime)
 
 void VampireSpawner::updateSpawn(float deltaTime)
 {
-	if (m_vampireSpawnTimer > 0.0f)
+    if (m_vampireSpawnTimer > 0.0f)
     {
         m_vampireSpawnTimer -= deltaTime;
         return;
@@ -53,15 +70,15 @@ void VampireSpawner::updateSpawn(float deltaTime)
         randomYPos += yMinDist;
 
     sf::Vector2f spawnPosition = sf::Vector2f(randomXPos, randomYPos);
-	int vampireLevel = rand() % m_maximumLevel + 1;
+    int vampireLevel = rand() % m_maximumLevel + 1;
 
     m_pVampires.push_back(std::make_unique<Vampire>(m_pGame, spawnPosition, vampireLevel));
 
     m_spawnCount++;
-	if (m_spawnCount % SpawnCountToIncreaseMaxLevel == 0)
-	{
-		m_maximumLevel++;
-	}
+    if (m_spawnCount % SpawnCountToIncreaseMaxLevel == 0)
+    {
+        m_maximumLevel++;
+    }
     if (m_vampireSpawnCooldown > MinimumVampireSpawnCooldown && m_spawnCount % SpawnCountToDecreaseCooldown == 0)
     {
         m_vampireSpawnCooldown -= VampireSpawnCooldownDecrement;
@@ -69,19 +86,10 @@ void VampireSpawner::updateSpawn(float deltaTime)
     m_vampireSpawnTimer = m_vampireSpawnCooldown;
 }
 
-void VampireSpawner::initialise()
-{
-	m_pVampires.clear();
-	m_vampireSpawnTimer = 0.0f;
-	m_vampireSpawnCooldown = StartingVampireSpawnCooldown;
-	m_spawnCount = 0;
-	m_maximumLevel = 1;
-}
-
 void VampireSpawner::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-	for (auto& temp : m_pVampires)
-	{
-		temp->draw(target, states);
-	}
+    for (auto& temp : m_pVampires)
+    {
+        temp->draw(target, states);
+    }
 }
