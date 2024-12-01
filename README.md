@@ -36,5 +36,5 @@ Run `cmake -G` to list all available generators.
 
 ### Credits
 
-Music - https://clement-panchout.itch.io/yet-another-free-music-pack
-SFX - https://leohpaz.itch.io/minifantasy-dungeon-sfx-pack
+- Music - https://clement-panchout.itch.io/yet-another-free-music-pack
+- SFX - https://leohpaz.itch.io/minifantasy-dungeon-sfx-pack
