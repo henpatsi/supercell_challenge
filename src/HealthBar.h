@@ -5,17 +5,22 @@
 class HealthBar
 {
 public:
-	HealthBar(int maxHealth, float scale = 1.0f);
-	void updateHealth(int health);
-	void setPosition(sf::Vector2f position);
-	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+    HealthBar(int maxHealth, float scale = 1.0f);
+
+    // Loop
+    void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+
+    // Setters
+    void updateHealth(int health);
+    void setPosition(sf::Vector2f position);
 
 private:
-	// sf::RectangleShape m_background;
-	sf::RectangleShape m_healthBar;
+    // References
+    // sf::RectangleShape m_background;
+    sf::RectangleShape m_healthBar;
 
-	int m_currentHealth;
-	int m_maxHealth;
-
-	float m_scale;
+    // Stats
+    int m_currentHealth;
+    int m_maxHealth;
+    float m_scale;
 };

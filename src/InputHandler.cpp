@@ -28,26 +28,26 @@ void GameInput::update(float deltaTime)
 
 bool GameInput::upgrade()
 {
-	if (m_inputData.m_upgrade1)
-	{
-		m_pPlayer->upgradeSpeed(MoveSpeedUpgradeAmount);
-		m_inputData.m_upgrade1 = false;
-		return true;
-	}
-	else if (m_inputData.m_upgrade2)
-	{
-		m_pPlayer->upgradeDamage(DamageUpgradeAmount);
-		m_inputData.m_upgrade2 = false;
-		return true;
-	}
-	else if (m_inputData.m_upgrade3)
-	{
-		m_pPlayer->upgradeAttackSize(AttackSizeUpgradeAmount);
-		m_inputData.m_upgrade3 = false;
-		return true;
-	}
+    if (m_inputData.m_upgrade1)
+    {
+        m_pPlayer->upgradeSpeed(MoveSpeedUpgradeAmount);
+        m_inputData.m_upgrade1 = false;
+        return true;
+    }
+    else if (m_inputData.m_upgrade2)
+    {
+        m_pPlayer->upgradeDamage(DamageUpgradeAmount);
+        m_inputData.m_upgrade2 = false;
+        return true;
+    }
+    else if (m_inputData.m_upgrade3)
+    {
+        m_pPlayer->upgradeAttackSize(AttackSizeUpgradeAmount);
+        m_inputData.m_upgrade3 = false;
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 
@@ -74,20 +74,20 @@ void GameInput::onKeyPressed(sf::Keyboard::Key key)
     }
     else if (key == sf::Keyboard::Space)
     {
-		m_inputData.m_space = true;
+        m_inputData.m_space = true;
     }
-	else if (key == sf::Keyboard::Num1)
-	{
-		m_inputData.m_upgrade1 = true;
-	}
-	else if (key == sf::Keyboard::Num2)
-	{
-		m_inputData.m_upgrade2 = true;
-	}
-	else if (key == sf::Keyboard::Num3)
-	{
-		m_inputData.m_upgrade3 = true;
-	}
+    else if (key == sf::Keyboard::Num1)
+    {
+        m_inputData.m_upgrade1 = true;
+    }
+    else if (key == sf::Keyboard::Num2)
+    {
+        m_inputData.m_upgrade2 = true;
+    }
+    else if (key == sf::Keyboard::Num3)
+    {
+        m_inputData.m_upgrade3 = true;
+    }
 }
 
 void GameInput::onKeyReleased(sf::Keyboard::Key key)
@@ -112,16 +112,16 @@ void GameInput::onKeyReleased(sf::Keyboard::Key key)
     {
         m_inputData.m_space = false;
     }
-	else if (key == sf::Keyboard::Num1)
-	{
-		m_inputData.m_upgrade1 = false;
-	}
-	else if (key == sf::Keyboard::Num2)
-	{
-		m_inputData.m_upgrade2 = false;
-	}
-	else if (key == sf::Keyboard::Num3)
-	{
-		m_inputData.m_upgrade3 = false;
-	}
+    else if (key == sf::Keyboard::Num1)
+    {
+        m_inputData.m_upgrade1 = false;
+    }
+    else if (key == sf::Keyboard::Num2)
+    {
+        m_inputData.m_upgrade2 = false;
+    }
+    else if (key == sf::Keyboard::Num3)
+    {
+        m_inputData.m_upgrade3 = false;
+    }
 }

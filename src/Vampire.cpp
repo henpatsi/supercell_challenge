@@ -89,7 +89,7 @@ void Vampire::takeDamage(int damage, int attackID)
     m_lastAttackID = attackID;
 
     m_healthBar.updateHealth(m_health);
-    m_healthBar.setPosition(getCenter() + sf::Vector2f(0, -m_sprite.getGlobalBounds().height * 0.5f - 10));
+    m_healthBar.setPosition(getCenter() + sf::Vector2f(0, -m_sprite.getGlobalBounds().height * 0.5f - 10)); // TODO check if unnecessary
 }
 
 void Vampire::draw(sf::RenderTarget& target, sf::RenderStates states) const
